@@ -36,10 +36,10 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
 
                 // 인증정보에 요저정보(username) 넣기
                 // username -> user 조회
-                String username = info.getSubject();
+                String nickname = info.getSubject();
                 SecurityContext context = SecurityContextHolder.createEmptyContext();
                 // -> userDetails 에 담고
-                UserDetailsImpl userDetails = userDetailsService.getUserDetails(username);
+                UserDetailsImpl userDetails = userDetailsService.getUserDetails(nickname);
                 // -> authentication의 principal 에 담고
                 Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                 // -> securityContent 에 담고
