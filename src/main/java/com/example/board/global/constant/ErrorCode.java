@@ -19,7 +19,9 @@ public enum ErrorCode {
     INVALID_NICKNAME(HttpStatus.BAD_REQUEST,"중복된 nickname 입니다."),
     INVALID_PASSWORD_CHECK(HttpStatus.BAD_REQUEST,"비밀번호가 일치하지 않습니다."),
 
-    INVALID_USER(HttpStatus.NOT_FOUND,"일치하는 유저가 없습니다.");
+    INVALID_USER(HttpStatus.NOT_FOUND,"일치하는 유저가 없습니다."),
+    INVALID_BOARD(HttpStatus.NOT_FOUND,"일치하는 게시판이 없어요"),
+    INVALID_MADE(HttpStatus.NOT_FOUND,"작성자가 아닙니다");
 
 
 
