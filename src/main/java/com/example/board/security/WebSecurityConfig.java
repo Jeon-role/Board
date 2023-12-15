@@ -2,10 +2,8 @@ package com.example.board.security;
 
 
 
-import com.example.board.jwt.JwtAuthorizationFilter;
 import com.example.board.jwt.JwtUtil;
 import com.example.board.jwt.UserDetailsService;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;

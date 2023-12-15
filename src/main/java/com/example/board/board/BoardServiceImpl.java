@@ -66,6 +66,7 @@ public class BoardServiceImpl implements BoardService{
 
   }
 
+  @Override
   public Board findId(Long id){
     Board board = boardRepository.findById(id).orElseThrow(() -> new ApiException(ErrorCode.INVALID_BOARD));
     return board;
