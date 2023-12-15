@@ -1,10 +1,12 @@
 package com.example.board.user;
 
-import com.example.board.common.StatusDto;
+import static com.example.board.global.constant.ResponseCode.SUCCESS_LOGIN;
+import static com.example.board.global.constant.ResponseCode.SUCCESS_SIGNUP;
+
+import com.example.board.global.dto.SuccessResponse;
 import com.example.board.jwt.JwtUtil;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,22 +25,18 @@ public class UserController {
   }
 
   @PostMapping("/signup")
-  public ResponseEntity<StatusDto> signup(@Valid @RequestBody SignupRequestDto signupRequestDto){
+  public ResponseEntity<SuccessResponse> signup(@Valid @RequestBody SignupRequestDto signupRequestDto){
+    userService.signup(signupRequestDto);
+    return ResponseEntity.status(SUCCESS_SIGNUP.getHttpStatus()).body(new SuccessResponse(SUCCESS_SIGNUP));
 
-    return userService.signup(signupRequestDto);
   }
 
   @PostMapping("/login")
-  public ResponseEntity<StatusDto> login(@RequestBody LoginRequestDto loginRequestDto,
+  public ResponseEntity<SuccessResponse> login(@RequestBody LoginRequestDto loginRequestDto,
       HttpServletResponse res){
-    try {
-      userService.login(loginRequestDto);
-    }catch (IllegalArgumentException e){
-      return ResponseEntity.badRequest().body(new StatusDto(e.getMessage(), HttpStatus.BAD_REQUEST.value()));
-    }
+    userService.login(loginRequestDto);
     res.setHeader(JwtUtil.AUTHORIZATION_HEADER, jwtUtil.createToken(loginRequestDto.getNickname()));
-    return ResponseEntity.ok().body(new StatusDto("로그인 성공", HttpStatus.OK.value()));
-
+    return ResponseEntity.status(SUCCESS_LOGIN.getHttpStatus()).body(new SuccessResponse(SUCCESS_LOGIN));
   }
 
 

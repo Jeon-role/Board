@@ -1,6 +1,7 @@
 package com.example.board.security;
 
 
+
 import com.example.board.jwt.JwtAuthorizationFilter;
 import com.example.board.jwt.JwtUtil;
 import com.example.board.jwt.UserDetailsService;
@@ -28,7 +29,6 @@ public class WebSecurityConfig {
 
 	private final UserDetailsService userDetailsService;
 
-	private final ObjectMapper objectMapper;
 
 	@Bean
 	public PasswordEncoder passwordEncoder() {
@@ -40,8 +40,8 @@ public class WebSecurityConfig {
 		return configuration.getAuthenticationManager();
 	}
 	@Bean
-	public JwtAuthorizationFilter jwtAuthorizationFilter() {
-		return new JwtAuthorizationFilter(jwtUtil, userDetailsService, objectMapper);
+	public com.example.board.jwt.JwtAuthorizationFilter jwtAuthorizationFilter() {
+		return new com.example.board.jwt.JwtAuthorizationFilter(jwtUtil, userDetailsService);
 	}
 
 	@Bean
