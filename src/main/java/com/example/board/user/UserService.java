@@ -2,6 +2,7 @@ package com.example.board.user;
 
 
 import com.example.board.common.StatusDto;
+import jakarta.servlet.http.HttpServletResponse;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -44,4 +45,19 @@ public class UserService {
     return ResponseEntity.status(HttpStatus.CREATED.value()).body(new StatusDto("회원가입 성공", HttpStatus.CREATED.value()));
 
   }
+
+  public void login(LoginRequestDto loginRequestDto) {
+    String nickname=loginRequestDto.getNickname();
+    String password=loginRequestDto.getPassword();
+    User user = userRepository.findByNickname(nickname).orElseThrow(
+        () -> new IllegalArgumentException("등록된 사용자가 없습니다.")
+    );
+
+    if(!passwordEncoder.matches(password, user.getPassword())){
+      throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
+    }
+
+  }
+
+
 }
