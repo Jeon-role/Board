@@ -6,8 +6,10 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 
@@ -26,6 +28,12 @@ public class User {
 
   @Column(nullable = false)
   private String password;
+
+  @Builder
+  public User(String nickname, String password) {
+    this.nickname = nickname;
+    this.password = password;
+  }
 
 
 }
