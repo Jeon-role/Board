@@ -1,5 +1,6 @@
 package com.example.board.user;
 
+import com.example.board.common.Timestamped;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -18,7 +19,7 @@ import lombok.Setter;
 @Setter
 @Getter
 @Table(name="users")
-public class User {
+public class User extends Timestamped {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;

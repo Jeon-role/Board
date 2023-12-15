@@ -15,7 +15,7 @@ public class UserDetailsService {
 
 	public UserDetailsImpl getUserDetails(String nickname) {
 		User user = userRepository.findByNickname(nickname)
-			.orElseThrow(() -> new UsernameNotFoundException("Not Found" + nickname));
+			.orElseThrow(() -> new UsernameNotFoundException("Not Found" +nickname));
 		return new UserDetailsImpl(user);
 	}
 

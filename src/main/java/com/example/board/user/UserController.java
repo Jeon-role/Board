@@ -2,8 +2,8 @@ package com.example.board.user;
 
 import com.example.board.common.StatusDto;
 import com.example.board.jwt.JwtUtil;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/user")
+@RequestMapping("/api/users")
 public class UserController {
   private final UserService userService;
   private final JwtUtil jwtUtil;
@@ -23,7 +23,7 @@ public class UserController {
   }
 
   @PostMapping("/signup")
-  public ResponseEntity<StatusDto> signup(@RequestBody SignupRequestDto signupRequestDto){
+  public ResponseEntity<StatusDto> signup(@Valid @RequestBody SignupRequestDto signupRequestDto){
 
     return userService.signup(signupRequestDto);
   }

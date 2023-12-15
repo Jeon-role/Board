@@ -2,7 +2,6 @@ package com.example.board.user;
 
 
 import com.example.board.common.StatusDto;
-import jakarta.servlet.http.HttpServletResponse;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

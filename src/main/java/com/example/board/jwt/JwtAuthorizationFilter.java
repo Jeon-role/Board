@@ -2,6 +2,7 @@ package com.example.board.jwt;
 
 
 
+import com.example.board.common.StatusDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.FilterChain;
@@ -12,6 +13,7 @@ import java.io.IOException;
 import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
@@ -49,10 +51,10 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
                 // -> 이제 @AuthenticationPrincipal 로 조회할 수 있음
             } else {
                 // 인증정보가 존재하지 않을때
-//                StatusDto statusDto = new StatusDto("토큰이 유효하지 않습니다.", HttpStatus.BAD_REQUEST.value());
+                StatusDto statusDto = new StatusDto("토큰이 유효하지 않습니다.", HttpStatus.BAD_REQUEST.value());
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                 response.setContentType("application/json; charset=UTF-8");
-//                response.getWriter().write(objectMapper.writeValueAsString(statusDto));
+                response.getWriter().write(objectMapper.writeValueAsString(statusDto));
                 return;
             }
         }
