@@ -1,5 +1,7 @@
 package com.example.board.board;
 
+import com.example.board.comment.Comment;
+import com.example.board.comment.CommentResponseDto;
 import com.example.board.global.constant.ErrorCode;
 import com.example.board.global.exception.ApiException;
 import com.example.board.user.User;
@@ -14,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class BoardServiceImpl implements BoardService{
 
   private final BoardRepository boardRepository;
+  private final LikesRepository likesRepository;
 
 
 
@@ -29,7 +32,11 @@ public class BoardServiceImpl implements BoardService{
     List<Board> boardList = boardRepository.findAllByOrderByCreatedAtDesc();
     List<BoardResponseDto> responseDtoList = new ArrayList<>();
     for(Board board : boardList){
-      responseDtoList.add(new BoardResponseDto(board));
+      List<CommentResponseDto> commentList = new ArrayList<>();
+      for(Comment comment : board.getCommentList()){
+        commentList.add(new CommentResponseDto(comment));
+      }
+      responseDtoList.add(new BoardResponseDto(board,commentList));
     }
 
     return responseDtoList;
@@ -38,7 +45,11 @@ public class BoardServiceImpl implements BoardService{
   @Override
   public BoardResponseDto findOneBoard(Long id) {
     Board board = findId(id);
-    return new BoardResponseDto(board);
+    List<CommentResponseDto> commentList = new ArrayList<>();
+    for(Comment comment : board.getCommentList()){
+      commentList.add(new CommentResponseDto(comment));
+    }
+    return new BoardResponseDto(board,commentList);
   }
 
   @Transactional
@@ -71,5 +82,31 @@ public class BoardServiceImpl implements BoardService{
     Board board = boardRepository.findById(id).orElseThrow(() -> new ApiException(ErrorCode.INVALID_BOARD));
     return board;
   }
+
+  @Override
+  public void createLikes(Long boardId, User user) {
+    Board board = findId(boardId);
+
+    if(!likesRepository.existsByBoardIdAndUserId(boardId,user.getId())){
+      Likes likes = new Likes(board,user);
+      likesRepository.save(likes);
+    }
+    else {
+      throw new ApiException(ErrorCode.INVALID_LIKES_EXIST);
+    }
+  }
+
+  @Override
+  public void deleteLikes(Long id, User user) {
+    Likes likes = likesRepository.findById(id).orElseThrow(() -> new ApiException(ErrorCode.INVALID_LIKES));
+    if(user.getNickname().equals(likes.getUser().getNickname())){
+      likesRepository.delete(likes);
+    }
+    else {
+      throw new ApiException(ErrorCode.INVALID_MADE);
+    }
+
+  }
+
 
 }

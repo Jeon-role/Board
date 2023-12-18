@@ -16,4 +16,7 @@ public interface BoardService {
   void deleteBoard(Long id, User user);
   Board findId(Long id);
 
+  void createLikes(Long boardId, User user);
+
+  void deleteLikes(Long id, User user);
 }

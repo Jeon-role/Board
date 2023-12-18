@@ -4,6 +4,8 @@ import static com.example.board.global.constant.ResponseCode.SUCCESS_BOARD;
 import static com.example.board.global.constant.ResponseCode.SUCCESS_BOARD_DELETE;
 import static com.example.board.global.constant.ResponseCode.SUCCESS_BOARD_FIND_ONE;
 import static com.example.board.global.constant.ResponseCode.SUCCESS_BOARD_UPDATE;
+import static com.example.board.global.constant.ResponseCode.SUCCESS_LIKES;
+import static com.example.board.global.constant.ResponseCode.SUCCESS_LIKES_DELETE;
 
 import com.example.board.global.dto.SuccessResponse;
 import com.example.board.jwt.UserDetailsImpl;
@@ -63,6 +65,23 @@ public class BoardController {
     boardService.deleteBoard(id,userDetails.getUser());
     return ResponseEntity.status(SUCCESS_BOARD_DELETE.getHttpStatus()).body(new SuccessResponse(SUCCESS_BOARD_DELETE));
   }
+
+  //좋아요 생성
+  @PostMapping("/boards/{board_id}/likes")
+  public ResponseEntity<SuccessResponse> createLikes(@PathVariable Long board_id,
+      @AuthenticationPrincipal UserDetailsImpl userDetails){
+    boardService.createLikes(board_id,userDetails.getUser());
+    return ResponseEntity.status(SUCCESS_LIKES.getHttpStatus()).body(new SuccessResponse(SUCCESS_LIKES));
+  }
+
+  //좋아요 삭제
+  @DeleteMapping("/boards/likes/{id}")
+  public ResponseEntity<SuccessResponse> deleteLikes(@PathVariable Long id,
+      @AuthenticationPrincipal UserDetailsImpl userDetails){
+    boardService.deleteLikes(id,userDetails.getUser());
+    return ResponseEntity.status(SUCCESS_LIKES_DELETE.getHttpStatus()).body(new SuccessResponse(SUCCESS_LIKES_DELETE));
+  }
+
 
 
 

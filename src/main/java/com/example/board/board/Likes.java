@@ -1,9 +1,6 @@
-package com.example.board.comment;
+package com.example.board.board;
 
-import com.example.board.board.Board;
-import com.example.board.common.Timestamped;
 import com.example.board.user.User;
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -16,34 +13,27 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@NoArgsConstructor
 @Setter
 @Getter
-@Table(name="comments")
-public class Comment extends Timestamped {
+@NoArgsConstructor
+@Table(name="likes")
+public class Likes {
+
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
-  @Column(nullable = false)
-  private String comment;
-
-
-  @ManyToOne
-  @JoinColumn(name = "board_id", nullable = false)
-  private Board board;
 
   @ManyToOne
   @JoinColumn(name = "user_id", nullable = false)
   private User user;
 
-  public Comment(CommentRequestDto commentRequestDto,Board board,User user){
-    this.comment=commentRequestDto.getComment();
+  @ManyToOne
+  @JoinColumn(name = "board_id", nullable = false)
+  private Board board;
+
+  public Likes(Board board,User user){
     this.board=board;
     this.user=user;
   }
-  public void update(CommentRequestDto commentRequestDto){
-    this.comment=commentRequestDto.getComment();
-  }
-
 
 }

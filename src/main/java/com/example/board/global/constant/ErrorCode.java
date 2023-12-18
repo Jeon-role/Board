@@ -22,7 +22,9 @@ public enum ErrorCode {
     INVALID_USER(HttpStatus.NOT_FOUND,"일치하는 유저가 없습니다."),
     INVALID_BOARD(HttpStatus.NOT_FOUND,"일치하는 게시판이 없어요."),
     INVALID_MADE(HttpStatus.NOT_FOUND,"작성자가 아닙니다."),
-    INVALID_COMMENT(HttpStatus.NOT_FOUND,"일치하는 코멘트가 없어요.");
+    INVALID_COMMENT(HttpStatus.NOT_FOUND,"일치하는 코멘트가 없어요."),
+    INVALID_LIKES(HttpStatus.NOT_FOUND,"일치하는 좋아요가 없어요"),
+    INVALID_LIKES_EXIST(HttpStatus.BAD_REQUEST,"이미 해당게시판에 좋아요를 하셨어요");
 
 
 
