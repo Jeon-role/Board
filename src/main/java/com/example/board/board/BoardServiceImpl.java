@@ -1,9 +1,11 @@
 package com.example.board.board;
 
 import com.example.board.comment.Comment;
+import com.example.board.comment.CommentRepository;
 import com.example.board.comment.CommentResponseDto;
 import com.example.board.global.constant.ErrorCode;
 import com.example.board.global.exception.ApiException;
+import com.example.board.scheduler.Scheduler;
 import com.example.board.user.User;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +19,7 @@ public class BoardServiceImpl implements BoardService{
 
   private final BoardRepository boardRepository;
   private final LikesRepository likesRepository;
+  private final CommentRepository commentRepository;
 
 
 
@@ -69,6 +72,8 @@ public class BoardServiceImpl implements BoardService{
   public void deleteBoard(Long id, User user) {
     Board board = findId(id);
     if(user.getNickname().equals(board.getUser().getNickname())){
+      Scheduler scheduler= new Scheduler(likesRepository,commentRepository);
+      scheduler.deleteCommentAndLikes(id);
       boardRepository.delete(board);
     }
     else {

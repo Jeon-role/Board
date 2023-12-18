@@ -1,5 +1,6 @@
 package com.example.board.board;
 
+import com.example.board.common.Timestamped;
 import com.example.board.user.User;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -17,7 +18,7 @@ import lombok.Setter;
 @Getter
 @NoArgsConstructor
 @Table(name="likes")
-public class Likes {
+public class Likes extends Timestamped {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
