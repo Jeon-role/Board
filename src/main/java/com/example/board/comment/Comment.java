@@ -11,6 +11,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -35,6 +36,12 @@ public class Comment extends Timestamped {
   @ManyToOne
   @JoinColumn(name = "user_id", nullable = false)
   private User user;
+  @Builder
+  public Comment(String comment,Board board,User user){
+    this.comment=comment;
+    this.board=board;
+    this.user=user;
+  }
 
   public Comment(CommentRequestDto commentRequestDto,Board board,User user){
     this.comment=commentRequestDto.getComment();
