@@ -7,6 +7,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import com.example.board.board.BoardController;
+import com.example.board.board.BoardPageDTO;
 import com.example.board.board.BoardRequestDto;
 import com.example.board.board.BoardService;
 import com.example.board.test.ControllerTest;
@@ -43,13 +44,15 @@ public class BoardControllerTest extends ControllerTest implements BoardTest {
   @DisplayName("전체조회")
   @Test
   void getBoardTest() throws Exception{
+    var boardPageDTO =  BoardPageDTO.builder().currentPage(1).size(5).sortBy("UserId").isAsc(true).build();
     var action = mockMvc.perform(get("/api/boards")
         .contentType(MediaType.APPLICATION_JSON)
-        .accept(MediaType.APPLICATION_JSON));
+        .accept(MediaType.APPLICATION_JSON)
+        .content(objectMapper.writeValueAsString(boardPageDTO)));
 
     action.andExpect(status().isOk())
         .andDo(print());
-    verify(boardService,times(1)).getBoards();
+    verify(boardService,times(1)).getBoards(any(BoardPageDTO.class));
   }
 
 

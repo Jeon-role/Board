@@ -10,7 +10,6 @@ import com.example.board.user.User;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,9 +31,11 @@ public class BoardServiceImpl implements BoardService{
   }
 
   @Override
-  public List<BoardResponseDto> getBoards() {
-    List<Board> boardList = boardRepository.findAllByOrderByCreatedAtDesc();
+  public List<BoardResponseDto> getBoards(BoardPageDTO boardPageDTO) {
+    List<Board> boardList = boardRepository.findAllBy(boardPageDTO.toPageable());
     List<BoardResponseDto> responseDtoList = new ArrayList<>();
+
+
     for(Board board : boardList){
       List<CommentResponseDto> commentList = new ArrayList<>();
       for(Comment comment : board.getCommentList()){

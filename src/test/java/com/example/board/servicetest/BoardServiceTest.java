@@ -10,6 +10,7 @@ import static org.mockito.Mockito.when;
 
 
 import com.example.board.board.Board;
+import com.example.board.board.BoardPageDTO;
 import com.example.board.board.BoardRepository;
 import com.example.board.board.BoardResponseDto;
 import com.example.board.board.BoardServiceImpl;
@@ -113,11 +114,12 @@ public class BoardServiceTest implements BoardTest {
     when(boardRepository.save(any(Board.class))).thenReturn(board1);
     boardService.createBoard(TEST_BOARD_REQUEST_DTO,TEST_USER);
     List<Board> boardList = new ArrayList<>();
+    BoardPageDTO boardPageDTO =  BoardPageDTO.builder().currentPage(1).size(5).sortBy("UserId").isAsc(true).build();
 
 
     //when-then
-    when(boardRepository.findAllByOrderByCreatedAtDesc()).thenReturn(boardList);
-    List<BoardResponseDto> List = boardService.getBoards();
+    when(boardRepository.findAllBy(boardPageDTO.toPageable())).thenReturn(boardList);
+    List<BoardResponseDto> List = boardService.getBoards(boardPageDTO);
 
     for(BoardResponseDto boardResponseDto : List){
       assertEquals(TEST_BOARD_REQUEST_DTO.getTitle(),boardResponseDto.getTitle());

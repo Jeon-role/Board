@@ -40,8 +40,8 @@ public class BoardController {
 
   //전체조회
   @GetMapping("/boards")
-  public ResponseEntity<List<BoardResponseDto>> getBoards(){
-    return ResponseEntity.ok().body(boardService.getBoards());
+  public ResponseEntity<List<BoardResponseDto>> getBoards(@RequestBody BoardPageDTO boardPageDTO){
+    return ResponseEntity.ok().body(boardService.getBoards(boardPageDTO));
   }
 
   //선택조회

@@ -7,7 +7,7 @@ public interface BoardService {
 
   BoardResponseDto createBoard(BoardRequestDto boardRequestDto, User user);
 
-  List<BoardResponseDto> getBoards();
+  List<BoardResponseDto> getBoards(BoardPageDTO boardPageDTO);
 
   BoardResponseDto findOneBoard(Long id);
 
