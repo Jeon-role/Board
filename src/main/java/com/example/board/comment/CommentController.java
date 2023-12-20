@@ -5,12 +5,15 @@ import static com.example.board.global.constant.ResponseCode.SUCCESS_COMMENT_DEL
 import static com.example.board.global.constant.ResponseCode.SUCCESS_COMMENT_UPDATE;
 
 
+import com.example.board.board.Likes;
 import com.example.board.global.dto.SuccessResponse;
 import com.example.board.jwt.UserDetailsImpl;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -32,6 +35,12 @@ public class CommentController {
     CommentResponseDto responseDto = commentService.createComment(id,commentRequestDto,userDetails.getUser());
     return ResponseEntity.status(SUCCESS_COMMENT.getHttpStatus()).body(new SuccessResponse(SUCCESS_COMMENT,responseDto));
   }
+
+  @GetMapping("/comments")
+  public ResponseEntity<List<CommentResponseDto>> getComments(@RequestBody CommentPageDTO commentPageDTO){
+    return ResponseEntity.ok().body(commentService.getComments(commentPageDTO));
+  }
+
   @PutMapping("/{board_id}/comment/{id}")
   public ResponseEntity<SuccessResponse> updateComment(@PathVariable Long board_id,@PathVariable Long id,
       @RequestBody CommentRequestDto commentRequestDto,

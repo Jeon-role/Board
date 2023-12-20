@@ -16,11 +16,14 @@ import com.example.board.board.BoardServiceImpl;
 import com.example.board.board.Likes;
 import com.example.board.board.LikesRepository;
 import com.example.board.comment.Comment;
+import com.example.board.comment.CommentPageDTO;
 import com.example.board.comment.CommentRepository;
 import com.example.board.comment.CommentResponseDto;
 import com.example.board.comment.CommentServiceImpl;
 import com.example.board.test.BoardTest;
 import com.example.board.test.CommentTest;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -68,6 +71,29 @@ public class CommentServiceTest implements CommentTest, BoardTest {
 
 
   }
+  @Test
+  @DisplayName("댓글 전체조회")
+  void getComments(){
+    //given
+    TEST_USER.setId(5L);
+    Board board = new Board(TEST_BOARD_REQUEST_DTO,TEST_USER);
+    commentService = new CommentServiceImpl(commentRepository,boardService);
+    Comment comment = new Comment(TEST_COMMENT_REQUEST_DTO,board,TEST_USER);
+    List<Comment> commentList = new ArrayList<>();
+    CommentPageDTO commentPageDTO =  CommentPageDTO.builder().commentPage(1).commentSize(5).commentSortBy("UserId").isAsc(true).build();
+
+
+    //when
+    when(commentRepository.findAllBy(commentPageDTO.toPageable())).thenReturn(commentList);
+    List<CommentResponseDto> list = commentService.getComments(commentPageDTO);
+
+    //then
+    for (CommentResponseDto commentResponseDto : list){
+      assertEquals(TEST_COMMENT_REQUEST_DTO.getComment(),commentResponseDto.getComment());
+      assertEquals(TEST_USER.getNickname(),commentResponseDto.getNickname());
+    }
+  }
+
 
   @Test
   @DisplayName("댓글 수정")

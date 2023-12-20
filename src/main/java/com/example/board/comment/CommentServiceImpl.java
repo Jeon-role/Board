@@ -5,6 +5,8 @@ import com.example.board.board.BoardService;
 import com.example.board.global.constant.ErrorCode;
 import com.example.board.global.exception.ApiException;
 import com.example.board.user.User;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -46,5 +48,16 @@ public class CommentServiceImpl implements CommentService {
     else {
       throw new ApiException(ErrorCode.INVALID_MADE);
     }
+  }
+
+  @Override
+  public List<CommentResponseDto> getComments(CommentPageDTO commentPageDTO) {
+    List<Comment> commentList = commentRepository.findAllBy(commentPageDTO.toPageable());
+    List<CommentResponseDto> responseDtoList = new ArrayList<>();
+
+    for(Comment comment : commentList){
+      responseDtoList.add(new CommentResponseDto(comment));
+    }
+    return responseDtoList;
   }
 }

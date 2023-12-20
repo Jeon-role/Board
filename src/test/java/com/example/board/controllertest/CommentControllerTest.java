@@ -10,8 +10,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
-
+import com.example.board.board.BoardPageDTO;
 import com.example.board.comment.CommentController;
+import com.example.board.comment.CommentPageDTO;
 import com.example.board.comment.CommentRequestDto;
 import com.example.board.comment.CommentService;
 import com.example.board.test.CommentTest;
@@ -43,6 +44,20 @@ public class CommentControllerTest extends ControllerTest implements CommentTest
     action.andExpect(status().isCreated())
         .andDo(print());
     verify(commentService,times(1)).createComment(anyLong(),any(CommentRequestDto.class),eq(TEST_USER));
+  }
+
+  @DisplayName("전체조회")
+  @Test
+  void getBoardTest() throws Exception{
+    var commentPageDTO =  CommentPageDTO.builder().commentPage(1).commentSize(5).commentSortBy("UserId").isAsc(true).build();
+    var action = mockMvc.perform(get("/api/boards/comments")
+        .contentType(MediaType.APPLICATION_JSON)
+        .accept(MediaType.APPLICATION_JSON)
+        .content(objectMapper.writeValueAsString(commentPageDTO)));
+
+    action.andExpect(status().isOk())
+        .andDo(print());
+    verify(commentService,times(1)).getComments(any(CommentPageDTO.class));
   }
 
   @DisplayName("수정")
