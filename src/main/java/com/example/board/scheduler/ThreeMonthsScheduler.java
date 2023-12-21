@@ -38,7 +38,7 @@ public class ThreeMonthsScheduler {
     if(!boardList.isEmpty()){
       log.info("deleteAutoThreeMonths  실행2");
       for(Board board : boardList){
-        LocalDateTime threeMonths = board.getModifiedAt().plusDays(1);
+        LocalDateTime threeMonths = board.getModifiedAt().plusDays(90);
         if(realNow.isAfter(threeMonths)){
           Scheduler scheduler= new Scheduler(likesRepository,commentRepository);
           scheduler.deleteCommentAndLikes(board.getId());
@@ -53,7 +53,7 @@ public class ThreeMonthsScheduler {
       if(!commentList.isEmpty()){
         log.info("deleteAutoThreeMonths  실행3");
         for(Comment comment : commentList){
-          LocalDateTime threeMonths = comment.getModifiedAt().plusDays(1);
+          LocalDateTime threeMonths = comment.getModifiedAt().plusDays(90);
           if(realNow.isAfter(threeMonths)){
             commentRepository.delete(comment);
           }
@@ -63,7 +63,7 @@ public class ThreeMonthsScheduler {
       if(!likesList.isEmpty()){
         log.info("deleteAutoThreeMonths  실행4");
         for(Likes likes : likesList){
-          LocalDateTime threeMonths = likes.getModifiedAt().plusDays(1);
+          LocalDateTime threeMonths = likes.getModifiedAt().plusDays(90);
           if(realNow.isAfter(threeMonths)){
             likesRepository.delete(likes);
           }
