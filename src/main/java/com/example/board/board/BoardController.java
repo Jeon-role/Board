@@ -7,6 +7,7 @@ import static com.example.board.global.constant.ResponseCode.SUCCESS_BOARD_UPDAT
 import static com.example.board.global.constant.ResponseCode.SUCCESS_LIKES;
 import static com.example.board.global.constant.ResponseCode.SUCCESS_LIKES_DELETE;
 
+
 import com.example.board.global.dto.SuccessResponse;
 import com.example.board.jwt.UserDetailsImpl;
 import java.util.List;
@@ -15,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.Mapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -49,6 +51,12 @@ public class BoardController {
   public ResponseEntity<SuccessResponse> findOneBoard(@PathVariable Long id){
     BoardResponseDto boardResponseDto = boardService.findOneBoard(id);
     return ResponseEntity.status(SUCCESS_BOARD_FIND_ONE.getHttpStatus()).body(new SuccessResponse(SUCCESS_BOARD_FIND_ONE,boardResponseDto));
+  }
+
+  //검색
+  @GetMapping("/boards/search")
+  public ResponseEntity<List<BoardResponseDto>> getBoardsSearch(@RequestBody BoardPageDTO boardPageDTO){
+    return ResponseEntity.ok().body(boardService.getBoardsSearch(boardPageDTO));
   }
 
   @PutMapping("/boards/{id}")

@@ -114,5 +114,18 @@ public class BoardServiceImpl implements BoardService{
 
   }
 
+  @Override
+  public List<BoardResponseDto> getBoardsSearch(BoardPageDTO boardPageDTO) {
+    if(boardPageDTO.getKeyWord()==null){
+      throw new ApiException(ErrorCode.INVALID_SEARCH);
+    }
+    List<Board> boardList = boardRepository.search(boardPageDTO.getKeyWord(),boardPageDTO.toPageable());
+    List<BoardResponseDto> responseDtoList = new ArrayList<>();
+    for(Board board : boardList){
+      responseDtoList.add(new BoardResponseDto(board));
+    }
+
+    return responseDtoList;
+  }
 
 }

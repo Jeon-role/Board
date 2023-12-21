@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 
 //@RepositoryDefinition(domainClass = Board.class, idClass = Long.class)
-public interface BoardRepository extends JpaRepository<Board,Long> {
+public interface BoardRepository extends JpaRepository<Board,Long> ,BoardRepositoryQuery{
 
   List<Board> findAllBy(Pageable pageable);
 

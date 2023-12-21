@@ -19,4 +19,6 @@ public interface BoardService {
   void createLikes(Long boardId, User user);
 
   void deleteLikes(Long id, User user);
+
+  List<BoardResponseDto> getBoardsSearch(BoardPageDTO boardPageDTO);
 }

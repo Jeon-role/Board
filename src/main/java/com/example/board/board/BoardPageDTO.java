@@ -18,10 +18,13 @@ import org.springframework.data.domain.Sort;
 @Getter
 public class BoardPageDTO {
 
+  //검색할때는 page,size,keWord 만 필요함
+
   private Integer currentPage;
   private Integer size;
   private String sortBy;
   private Boolean isAsc;
+  private String keyWord; // 검색할때만 사용하는거
 
 
 
