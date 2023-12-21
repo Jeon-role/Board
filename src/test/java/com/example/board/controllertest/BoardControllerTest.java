@@ -55,6 +55,19 @@ public class BoardControllerTest extends ControllerTest implements BoardTest {
     verify(boardService,times(1)).getBoards(any(BoardPageDTO.class));
   }
 
+  @DisplayName("검색")
+  @Test
+  void getBoardsSearchTest() throws Exception{
+    var boardPageDTO =  BoardPageDTO.builder().currentPage(1).size(5).keyWord("title").build();
+    var action = mockMvc.perform(get("/api/boards/search")
+        .contentType(MediaType.APPLICATION_JSON)
+        .accept(MediaType.APPLICATION_JSON)
+        .content(objectMapper.writeValueAsString(boardPageDTO)));
+    action.andExpect(status().isOk())
+        .andDo(print());
+    verify(boardService,times(1)).getBoardsSearch(any(BoardPageDTO.class));
+  }
+
 
 
   @DisplayName("선택조회")

@@ -103,6 +103,32 @@ public class BoardServiceTest implements BoardTest {
 
 
   }
+
+
+  @Test
+  @DisplayName("게시판 검색")
+  void getBoardsSearchTest(){
+    //given
+    TEST_USER.setId(5L);
+    Board board = new Board(TEST_BOARD_REQUEST_DTO,TEST_USER);
+    var boardPageDTO =  BoardPageDTO.builder().currentPage(1).size(5).keyWord("title").build();
+    //when
+    List<BoardResponseDto> List = boardService.getBoardsSearch(boardPageDTO);
+
+
+
+    //then
+    for(BoardResponseDto boardResponseDto : List){
+      assertEquals(TEST_BOARD_REQUEST_DTO.getTitle(),boardResponseDto.getTitle());
+      assertEquals(TEST_BOARD_REQUEST_DTO.getContents(),boardResponseDto.getContents());
+      assertEquals(TEST_USER.getNickname(),boardResponseDto.getNickname());
+    }
+    verify(boardRepository,times(1)).search(boardPageDTO.getKeyWord(),boardPageDTO.toPageable());
+
+  }
+
+
+
   @Test
   @DisplayName("게시판 전체 조회")
   void getBoardsTest(){
